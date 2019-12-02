@@ -12,7 +12,11 @@ async function run() {
 		repo:	'tagging-test',
 		path:	'VERSION'
 	}).then(result => {
-		console.log(result)
+		const sha = result.data.sha;
+		const version = Buffer.from(result.data.content, 'base64').toString()
+		console.log(version)
+		const newVersion = semver.inc(version, 'minor')
+
 	})
 }
 
