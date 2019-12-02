@@ -7,9 +7,9 @@ async function run() {
 	const token = core.getInput('repo-token', {required: true})
 	const client = new github.GitHub(token);
 	client.repos.getContents({
-	'WiktorJ',
-	'tagging-test',
-	'VERSION'
+		owner:	'WiktorJ',
+		repo:	'tagging-test',
+		path:	'VERSION'
 	}).then(result => {
 		console.log(result)
 	})
