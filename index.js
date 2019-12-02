@@ -4,8 +4,9 @@ const semver = require('semver');
 
 
 async function run() {
-	const token = core.getInput('github-token', {required: true})
-	const client = new github.GitHub(token);
+	
+	//const token = core.getInput('github-token', {required: true})
+	const client = new github.GitHub(process.env.GITHUB_TOKEN!);
 	client.repos.getContents({
 		owner:	'WiktorJ',
 		repo:	'tagging-test',
