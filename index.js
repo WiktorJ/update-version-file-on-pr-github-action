@@ -4,7 +4,7 @@ const semver = require('semver');
 
 
 async function run() {
-	const token = core.getInput('repo-token', {required: true})
+	const token = core.getInput('github-token', {required: true})
 	const client = new github.GitHub(token);
 	client.repos.getContents({
 		owner:	'WiktorJ',
