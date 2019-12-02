@@ -1,0 +1,25 @@
+{
+  "name": "update-version-file-on-pr-github-action",
+  "version": "1.0.0",
+  "description": "This action updates project version in `VERSION` file according to label on pull request",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WiktorJ/update-version-file-on-pr-github-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WiktorJ/update-version-file-on-pr-github-action/issues"
+  },
+  "homepage": "https://github.com/WiktorJ/update-version-file-on-pr-github-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@actions/github": "^1.1.0",
+    "semver": "^6.3.0"
+  }
+}

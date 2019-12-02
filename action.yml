@@ -1,0 +1,11 @@
+name: 'Update VERSION file on PR'
+description: 'This action updates project version in VERSION file according to label on pull request'
+outputs:
+  new_commit: # id of output
+    description: 'Commit with updated version in VERSION file'
+branding:
+  icon: 'git-merge'  
+  color: 'purple'
+runs:
+  using: 'node12'
+  main: 'index.js'
