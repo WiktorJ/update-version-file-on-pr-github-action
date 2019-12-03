@@ -24,7 +24,7 @@ async function run() {
 		throw new Error("Environment variable GITHUB_EVENT_PATH not set!");
 		}
 
-		const eventDataStr = await readFile(GITHUB_EVENT_PATH);
+		const eventDataStr = readFile(GITHUB_EVENT_PATH);
 		const eventData = JSON.parse(eventDataStr);
 		//console.log(eventData);
 
