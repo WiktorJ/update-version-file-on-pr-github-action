@@ -8,9 +8,14 @@ async function run() {
 	
 	const token = core.getInput('token', {required: true})
 	const client = new github.GitHub(token);
+
+	const eventDataStr = await readFile(GITHUB_EVENT_PATH);
+	const eventData = JSON.parse(eventDataStr);
+	const repoName = eventData.repository.name;
+	const owner = eventData.repository.owner.login
 	const result = await client.repos.getContents({
-		owner:	'WiktorJ',
-		repo:	'tagging-test',
+		owner:	owner,
+		repo:	repoName,
 		path:	'VERSION'
 	})
 
@@ -22,12 +27,10 @@ async function run() {
 	throw new Error("Environment variable GITHUB_EVENT_PATH not set!");
 	}
 
-	const eventDataStr = await readFile(GITHUB_EVENT_PATH);
-	const eventData = JSON.parse(eventDataStr);
 
 	const current_branch_version = await client.repos.getContents({
-		owner:	'WiktorJ',
-		repo:	'tagging-test',
+		owner:	owner,
+		repo:	repoName,
 		path:	'VERSION',
 		ref: eventData.pull_request.head.ref
 	})
@@ -37,16 +40,16 @@ async function run() {
 	const newVersion = semver.inc(version, labelsContains(labels, "major") ? "major" : labelsContains(labels, "minor") ? "minor" : "patch")
 	console.log(newVersion)
 	client.repos.createOrUpdateFile({
-		owner:  'WiktorJ',
-		repo:   'tagging-test',
+		owner:  owner,
+		repo:   repoName,
 		path:   'VERSION',
 		message: 'Version updated to: ' + newVersion,
 		content: Buffer.from(newVersion).toString('base64'),
 		sha: sha,
 		branch: eventData.pull_request.head.ref,
 		committer: {
-			name: 'version_update_action',
-			email: 'some@email.com'
+			name: owner,
+			email: owner+'@fakemail.com' 
 		}
 	})
 
