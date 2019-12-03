@@ -41,8 +41,10 @@ async function run() {
 			content: Buffer.to(newVersion, 'base64'),
 			sha: sha,
 			branch: eventData.head.ref,
-			committer.name = 'version_update_action',
-			committer.email = 'some@email.com'
+			committer: {
+				name: 'version_update_action',
+				email: 'some@email.com'
+			}
 
 		})
 	})
