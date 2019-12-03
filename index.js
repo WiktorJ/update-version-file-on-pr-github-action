@@ -39,7 +39,7 @@ async function run() {
 
 	const newVersion = semver.inc(version, labelsContains(labels, "major") ? "major" : labelsContains(labels, "minor") ? "minor" : "patch")
 	console.log(newVersion)
-	client.repos.createOrUpdateFile({
+	await client.repos.createOrUpdateFile({
 		owner:  owner,
 		repo:   repoName,
 		path:   'VERSION',
