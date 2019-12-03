@@ -17,7 +17,7 @@ async function run() {
 	const sha = result.data.sha
 	const version = Buffer.from(result.data.content, 'base64').toString()
 	console.log(version)
-	const newVersion = semver.inc(version, 'minor')
+	const newVersion = semver.inc(version, 'patch')
 	console.log(newVersion)
 
 	const GITHUB_EVENT_PATH = process.env.GITHUB_EVENT_PATH;
