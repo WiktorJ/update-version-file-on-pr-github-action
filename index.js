@@ -5,14 +5,20 @@ const process = require("process");
 const fs = require("fs");
 
 async function run() {
-	
 	const token = core.getInput('token', {required: true})
 	const client = new github.GitHub(token);
 
+	const GITHUB_EVENT_PATH = process.env.GITHUB_EVENT_PATH;
+	if (!GITHUB_EVENT_PATH) {
+		throw new Error("Environment variable GITHUB_EVENT_PATH not set!");
+	}
+
 	const eventDataStr = await readFile(GITHUB_EVENT_PATH);
 	const eventData = JSON.parse(eventDataStr);
+
 	const repoName = eventData.repository.name;
 	const owner = eventData.repository.owner.login
+
 	const result = await client.repos.getContents({
 		owner:	owner,
 		repo:	repoName,
@@ -21,12 +27,6 @@ async function run() {
 
 	const version = Buffer.from(result.data.content, 'base64').toString()
 	console.log(version)
-
-	const GITHUB_EVENT_PATH = process.env.GITHUB_EVENT_PATH;
-	if (!GITHUB_EVENT_PATH) {
-	throw new Error("Environment variable GITHUB_EVENT_PATH not set!");
-	}
-
 
 	const current_branch_version = await client.repos.getContents({
 		owner:	owner,
@@ -52,8 +52,6 @@ async function run() {
 			email: owner+'@fakemail.com' 
 		}
 	})
-
-
 }
 
 function labelsContains(labels, el) {
