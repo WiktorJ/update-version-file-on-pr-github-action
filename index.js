@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const semver = require('semver');
-
+const process = require("process");
 
 async function run() {
 	
@@ -27,5 +27,18 @@ async function run() {
 	const eventData = JSON.parse(eventDataStr);
 	console.log(eventData)
 }
+
+async function readFile(path) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, { encoding: "utf8" }, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
 
 run()
