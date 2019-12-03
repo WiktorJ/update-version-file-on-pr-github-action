@@ -29,7 +29,7 @@ async function run() {
 	//console.log(eventData);
 
 
-	const labels = GeventData.pull_request.labels
+	const labels = eventData.pull_request.labels
 	for(const label of labels) {
 		console.log(label)
 	}
