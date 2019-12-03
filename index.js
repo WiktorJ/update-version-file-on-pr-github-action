@@ -39,7 +39,7 @@ async function run() {
 		repo:   'tagging-test',
 		path:   'VERSION',
 		message: 'Version updated to: ' + newVersion,
-		content: Buffer.to(newVersion, 'base64'),
+		content: Buffer.from(newVersion).toString('base64'),
 		sha: sha,
 		branch: eventData.head.ref,
 		committer: {
