@@ -18,6 +18,14 @@ async function run() {
 		const newVersion = semver.inc(version, 'minor')
 		console.log(newVersion)
 	})
+	const GITHUB_EVENT_PATH = process.env.GITHUB_EVENT_PATH;
+	if (!GITHUB_EVENT_PATH) {
+ 	throw new Error("Environment variable GITHUB_EVENT_PATH not set!");
+	}
+
+	const eventDataStr = await readFile(GITHUB_EVENT_PATH);
+	const eventData = JSON.parse(eventDataStr);
+	console.log(eventData)
 }
 
 run()
