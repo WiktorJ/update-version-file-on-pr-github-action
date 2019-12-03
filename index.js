@@ -27,13 +27,10 @@ async function run() {
 
 	const eventDataStr = await readFile(GITHUB_EVENT_PATH);
 	const eventData = JSON.parse(eventDataStr);
-	//console.log(eventData);
+	console.log(eventData);
 
 
 	const labels = eventData.pull_request.labels
-	for(const label of labels) {
-		console.log(label)
-	}
 	client.repos.createOrUpdateFile({
 		owner:  'WiktorJ',
 		repo:   'tagging-test',
