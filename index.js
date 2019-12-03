@@ -34,7 +34,7 @@ async function run() {
 	const sha = current_branch_version.data.sha
 	const labels = eventData.pull_request.labels
 
-	const newVersion = semver.inc(version, arrayContains(labels, "major") ? "major" : arrayContains(labels, "minor") ? "minor" : "patch")
+	const newVersion = semver.inc(version, labelsContains(labels, "major") ? "major" : labelsContains(labels, "minor") ? "minor" : "patch")
 	console.log(newVersion)
 	client.repos.createOrUpdateFile({
 		owner:  'WiktorJ',
@@ -53,8 +53,13 @@ async function run() {
 
 }
 
-function arrayContains(arr, el) {
-	return (arr.indexOf(el) > -1)
+function labelsContains(labels, el) {
+	for(const label of labels) {
+		if (label.name === el) {
+			return true
+		}
+	}
+	return false 
 }
 
 async function readFile(path) {
