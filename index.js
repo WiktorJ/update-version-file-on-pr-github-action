@@ -37,7 +37,7 @@ async function run() {
 		path:   'VERSION',
 		message: 'Version updated to: ' + newVersion,
 		content: Buffer.from(newVersion).toString('base64'),
-		sha: sha,
+		//sha: sha,
 		branch: eventData.pull_request.head.ref,
 		committer: {
 			name: 'version_update_action',
