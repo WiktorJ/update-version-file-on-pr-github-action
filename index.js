@@ -16,8 +16,6 @@ async function run() {
 
 	const version = Buffer.from(result.data.content, 'base64').toString()
 	console.log(version)
-	const newVersion = semver.inc(version, 'patch')
-	console.log(newVersion)
 
 	const GITHUB_EVENT_PATH = process.env.GITHUB_EVENT_PATH;
 	if (!GITHUB_EVENT_PATH) {
@@ -26,7 +24,6 @@ async function run() {
 
 	const eventDataStr = await readFile(GITHUB_EVENT_PATH);
 	const eventData = JSON.parse(eventDataStr);
-//	console.log(eventData);
 
 	const current_branch_version = await client.repos.getContents({
 		owner:	'WiktorJ',
@@ -36,6 +33,9 @@ async function run() {
 	})
 	const sha = current_branch_version.data.sha
 	const labels = eventData.pull_request.labels
+
+	const newVersion = semver.inc(version, arrayContains(labels, "major") ? "major" : arrayContains(labels, "minor") ? "minor" : "patch")
+	console.log(newVersion)
 	client.repos.createOrUpdateFile({
 		owner:  'WiktorJ',
 		repo:   'tagging-test',
@@ -51,6 +51,10 @@ async function run() {
 	})
 
 
+}
+
+function arrayContains(arr, el) {
+	return (arr.indexOf(el) > -1)
 }
 
 async function readFile(path) {
