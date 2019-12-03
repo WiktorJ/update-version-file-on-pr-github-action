@@ -14,7 +14,6 @@ async function run() {
 		path:	'VERSION'
 	})
 
-	const sha = result.data.sha
 	const version = Buffer.from(result.data.content, 'base64').toString()
 	console.log(version)
 	const newVersion = semver.inc(version, 'patch')
@@ -27,9 +26,15 @@ async function run() {
 
 	const eventDataStr = await readFile(GITHUB_EVENT_PATH);
 	const eventData = JSON.parse(eventDataStr);
-	console.log(eventData);
+//	console.log(eventData);
 
-
+	const current_branch_version = await client.repos.getContents({
+		owner:	'WiktorJ',
+		repo:	'tagging-test',
+		path:	'VERSION',
+		ref: eventData.pull_request.head.ref
+	})
+	const sha = current_branch_version.data.sha
 	const labels = eventData.pull_request.labels
 	client.repos.createOrUpdateFile({
 		owner:  'WiktorJ',
@@ -37,7 +42,7 @@ async function run() {
 		path:   'VERSION',
 		message: 'Version updated to: ' + newVersion,
 		content: Buffer.from(newVersion).toString('base64'),
-		//sha: sha,
+		sha: sha,
 		branch: eventData.pull_request.head.ref,
 		committer: {
 			name: 'version_update_action',
