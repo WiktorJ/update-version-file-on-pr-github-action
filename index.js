@@ -38,7 +38,7 @@ async function run() {
 		message: 'Version updated to: ' + newVersion,
 		content: Buffer.from(newVersion).toString('base64'),
 		sha: sha,
-		branch: eventData.head.ref,
+		branch: eventData.pull_request.head.ref,
 		committer: {
 			name: 'version_update_action',
 			email: 'some@email.com'
